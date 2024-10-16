@@ -1,9 +1,13 @@
-# This replicates the charts shown in the article
-
 # Preamble: Load data and packages ------------------------------------------------------------
 library(tidyverse)
 library(QuickCoefPlot)
 library(countrycode)
+
+# Create "plots" directory if it doesn't exist
+if(!dir.exists("plots")){
+  dir.create("plots")
+}
+
 df <- data.frame(read_csv('output-data/partisanship.csv'))
 
 # Break Germany into FDR and DEU
@@ -44,33 +48,36 @@ df$region[df$iso3c == 'DEU_FRG'] <- 'Europe'
 # For the raw data by country, see:
 
 # Plots: Partisanship data by country
-ggplot(df, aes(x=year, col=country))+geom_point(aes(y=INPARTY, col='in-party'))+
+p1 <- ggplot(df, aes(x=year, col=country))+geom_point(aes(y=INPARTY, col='in-party'))+
   geom_point(aes(y=OUTPARTY, col='out-party'))+
   geom_point(aes(y=INPARTY-OUTPARTY, col='negative partisanship'))+
   geom_line(aes(y=INPARTY-OUTPARTY, col='negative partisanship'))+ylab('Positive feeling, 0-10 scale')+xlab('')+
   facet_wrap(.~country)+scale_x_continuous(breaks = seq(1960, max(df$year), by = 30), 
-                                           labels = seq(1960, max(df$year), by = 30))+geom_hline(aes(yintercept = 4))
-
+                                           labels = seq(1960, max(df$year), by = 30))
+ggsave("plots/partisanship_data_by_country.png", p1, width = 8, height = 6)
 
 # Panel 1 ---------------------------
 
 # Panel 1, Chart 1: Inparty feeling
-ggplot(df, aes(x=year, y=INPARTY, col=country, size = population, weight=population))+
+p2 <- ggplot(df, aes(x=year, y=INPARTY, col=country, size = population, weight=population))+
   geom_point(alpha = 0.5)+
   geom_smooth(aes(col='black'), col='black', method = 'loess', size = 2, span = 0.5)+guides(col = 'none', size= 'none')+xlim(c(1961, 2024))+
   ylab('black = average')+xlab('In-party sentiment compared to average for that country')
+ggsave("plots/inparty_feeling.png", p2, width = 8, height = 6)
 
 # Panel 1, Chart 2: Outparty feeling
-ggplot(df, aes(x=year, y=OUTPARTY, col=country, size = population, weight=population))+
+p3 <- ggplot(df, aes(x=year, y=OUTPARTY, col=country, size = population, weight=population))+
   geom_point(alpha = 0.5)+
   geom_smooth(data = df, aes(col='black'), col='black', method = 'loess', size = 2, span = 0.5)+guides(col = 'none', size= 'none')+xlim(c(1960, 2024))+
   ylab('black = average')+xlab('Out-party sentiment compared to average for that country')
+ggsave("plots/outparty_feeling.png", p3, width = 8, height = 6)
 
 # Panel 1, Chart 3: Affection gap
-ggplot(df, aes(x=year, y=negative_partisanship_index, col=country, size = population, weight=population))+
+p4 <- ggplot(df, aes(x=year, y=negative_partisanship_index, col=country, size = population, weight=population))+
   geom_line(alpha = 0.5)+
   geom_smooth(aes(col='black'), col='black', method = 'loess', size = 2, span = 0.5)+guides(col = 'none', size= 'none')+
   ylab('black = average')+xlab('Affection gap between in and out party, compared to average for that country')
+ggsave("plots/affection_gap.png", p4, width = 8, height = 6)
 
 # Panel 2 ---------------------------
 
@@ -78,23 +85,26 @@ ggplot(df, aes(x=year, y=negative_partisanship_index, col=country, size = popula
 
 plot_data <- df[df$iso3c != 'USA', c('country', 'iso3c', 'population', 'milex_percent_of_gdp_3yr_pretty', 'negative_partisanship_index', 'INPARTY_index', 'OUTPARTY_index', 'year')]
 plot_data$milex_percent_of_gdp_3yr_pretty_within_country <- ave(plot_data$milex_percent_of_gdp_3yr_pretty, plot_data$iso3c, FUN = function(x) x-mean(x, na.rm = T))
-ggplot(plot_data, aes(x=milex_percent_of_gdp_3yr_pretty_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
+p5 <- ggplot(plot_data, aes(x=milex_percent_of_gdp_3yr_pretty_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
   geom_point()+
   geom_smooth(method = 'lm', aes(group = 1, weight = population))+ggtitle('Negative partisanship v military spending as % of GDP, \n1960-2021, relative to country mean')+
   xlab('Military spending, % of GDP\nNote: dots are countries, sized by population.\nLine is linear trend weighted by population. Excludes US where spending dominated by Iraq / Afgh wars.')+ylab('')+theme_minimal()+theme(legend.position = 'none')
+ggsave("plots/military_spending.png", p5, width = 8, height = 6)
 
 # Panel 2, Chart 2: Perceived government effectiveness
 plot_data <- df[, c('country', 'iso3c', 'population', 'gov_effectiveness_wb', 'negative_partisanship_index', 'INPARTY_index', 'OUTPARTY_index', 'year')]
 plot_data$gov_effectiveness_wb_within_country <- ave(plot_data$gov_effectiveness_wb, plot_data$iso3c, FUN = function(x) x-mean(x, na.rm = T))
-ggplot(plot_data, aes(x=gov_effectiveness_wb_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
+p6 <- ggplot(plot_data, aes(x=gov_effectiveness_wb_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
   geom_point()+
   geom_smooth(method = 'lm', aes(group = 1, weight = population))+ggtitle('Negative partisanship v Perceived gov. effectiveness, \n1960-2021, relative to country mean')+
   xlab('Perceived gov. effectiveness\nNote: dots are countries, sized by population.\nLine is linear trend weighted by population')+ylab('')+theme_minimal()+theme(legend.position = 'none')
+ggsave("plots/gov_effectiveness.png", p6, width = 8, height = 6)
 
 # Panel 2, Chart 3: Net migration
 plot_data <- df[, c('country', 'iso3c', 'population', 'net_migration_percent_of_pop', 'negative_partisanship_index', 'INPARTY_index', 'OUTPARTY_index', 'year')]
 plot_data$net_migration_percent_of_pop_within_country <- ave(plot_data$net_migration_percent_of_pop, plot_data$iso3c, FUN = function(x) x-mean(x, na.rm = T))
-ggplot(plot_data, aes(x=net_migration_percent_of_pop_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
+p7 <- ggplot(plot_data, aes(x=net_migration_percent_of_pop_within_country, y=negative_partisanship_index, col=iso3c, size = population))+
   geom_point()+
   geom_smooth(method = 'lm', aes(group = 1, weight = population))+ggtitle('Negative partisanship v net migration as % of population, \n1960-2021, relative to country mean')+
   xlab('net migration as % of population\nNote: dots are countries, sized by population.\nLine is linear trend weighted by population')+ylab('')+theme_minimal()+theme(legend.position = 'none')
+ggsave("plots/net_migration.png", p7, width = 8, height = 6)
