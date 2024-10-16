@@ -21,7 +21,7 @@ To fully replicate the analysis, you should run these scripts **in order**:
    This final script performs the main statistical analyses described in the article. It includes regressions and stress-tests that explore relationships between negative partisanship, military spending, migration, economic growth, and other variables.  
    **Note:** As we note in the article - the analysis does not establish causality.
 
-## Running the Scripts
+## Running the scripts
 
 To replicate the analysis, you should execute the scripts in the following order:
 
@@ -78,7 +78,7 @@ This project uses various publicly available data sources, including but not lim
 
 These sources have been combined and processed to create a comprehensive dataset for the analysis.
 
-## Suggested Citation
+## Suggested citation
 > The Economist (2024). Anti-politics. *The Economist*.
 
 ## Acknowledgments
@@ -93,7 +93,7 @@ We would like to extend our thanks to the following academics for valuable conve
 - **Sean J. Westwood** (Dartmouth College)
 - **Nikita Melnikov** (Nova School of Business and Economics)
 
-## Contact and Further Information
+## Contact and further information
 
 If you encounter any issues or have questions about the replication package, feel free to reach out via the GitHub issue tracker.
 
