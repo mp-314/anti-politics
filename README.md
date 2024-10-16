@@ -1,34 +1,110 @@
-# Template for data analysis projects
+Here’s the updated README with the requested sections for citation, sources, and a check on dependencies:
 
-This is a basic repo for structuring a data project for the Economist. It's set up around using [R][Rlang], but is equally useable with [Python][Python] scripts, if you prefer.
+---
 
-[Rlang]: https://www.r-project.org/
-[Python]: https://python.org/
+# Replication Package: Analysis of Anti-Politics and Negative Partisanship
 
+This replication package accompanies the article in *The Economist* on anti-politics and negative partisanship. It includes the necessary scripts to reproduce the data, charts, and key analyses referenced in the article.
 
-## How to use it
+## Overview
 
-The project structure is set up with four (self-explanatory) directories:
+The package contains three R scripts located in the `scripts` folder:
+1. **data-generation.R**
+2. **chart-replication.R**
+3. **analysis-replication.R**
 
-- `source-data` - The data files your script depends on to run. (This may not be _all_ the data you need--pulling information direct from the internet is also fine!)
-- `scripts` - Your processing scripts (in R or Python)
-- `plots` - Any charts you want to output
-- `output-data` - The data files your script produces
+To fully replicate the analysis, you should run these scripts **in order**:
 
-There is also a `run.sh`. This is a [shell script][shell script] in bash. If at all practical, this script should run all of your code (either use `Rscript scripts/MY_SCRIPT.R` or `python3 scripts/MY_SCRIPT.py`). This means anyone coming fresh to your script will know how to run it and generate your output files. A shell script is more or less the same as running commands on the command line, so you can run several scripts in order, or even mix and match R and python scripts if you feel the need. This also means you _don't_ need to use `setwd` in R. (`setwd` makes it more difficult for other people to use your script.)
+1. **data-generation.R**  
+   This script processes and constructs the datasets used in the analysis. It pulls together various data sources on partisanship, electoral systems, government effectiveness, military spending, migration, and other variables relevant to the study.
 
-[shell script]: https://en.wikipedia.org/wiki/Shell_script
+2. **chart-replication.R**  
+   After generating the data, this script replicates the visualizations featured in the article. It reproduces the key figures related to partisanship sentiment, affection gaps, and political attitudes over time across different countries. 
 
+3. **analysis-replication.R**  
+   This final script performs the main statistical analyses described in the article. It includes regressions and stress-tests that explore relationships between negative partisanship, military spending, migration, economic growth, and other variables.  
+   **Note:** The analysis is descriptive and correlational; it does not establish causality. Readers are encouraged to explore the data further and experiment with different model specifications.
 
-## Best practices
+## Running the Scripts
 
-_You should be using dependency management_. If you're using R, use [renv][renv] (this is decidedly better than [pacman][pacman]; please _don't_ use pacman). If you're using Python, use [poetry][poetry] (you could also use [pipenv][pipenv]--both are fine; either is better than just providing `requirements.txt`, though that's better than nothing). This will help make sure other people are able to run your code easily. If you're not sure how to use these tools, [renv][renv how to] and [poetry][poetry how to] both have relatively inscrutable introductions, but they're hopefully helpful.
+To replicate the analysis, you should execute the scripts in the following order:
 
-[renv]: https://rstudio.github.io/renv/index.html
-[renv how to]: https://rstudio.github.io/renv/reference/init.html
-[pacman]: https://cran.r-project.org/web/packages/pacman/index.html
-[pipenv]: https://pipenv.pypa.io/en/latest/
-[poetry]: https://python-poetry.org/
-[poetry how to]: https://python-poetry.org/docs/basic-usage/
+1. **data-generation.R**: Prepares the data for analysis.
+2. **chart-replication.R**: Produces the charts and figures used in the article.
+3. **analysis-replication.R**: Replicates the regression analysis and other statistical results.
 
-_Dates should always be in ISO format_. That's `YYYY-MM-DD`, like `2024-01-12`. This is for three reasons. First, there's no risk of anyone confusing this date format for another (unlike American/European date formats). Second, most programming languages will parse an ISO date correctly with no other formatting. And third, dates written like this will always sort in chronological order, even if sorted alphabetically.
+### Dependencies
+
+Before running the scripts, ensure that the following R packages are installed:
+
+- `tidyverse`
+- `ggplot2`
+- `QuickCoefPlot`
+- `countrycode`
+- `haven`
+- `readstata13`
+- `readxl`
+- `progress` (used for displaying progress bars in the data-generation process)
+
+You can install all the required packages using the following R command:
+
+```R
+install.packages(c('tidyverse', 'ggplot2', 'QuickCoefPlot', 'countrycode', 'haven', 'readstata13', 'readxl', 'progress'))
+```
+
+## Variables
+
+The key variables used in the analysis include:
+
+- **INPARTY**: Measures the positive feelings respondents have towards their in-party (0-10 scale).
+- **OUTPARTY**: Measures the positive feelings respondents have towards their out-party (0-10 scale).
+- **negative_partisanship**: Calculated as the difference between in-party and out-party affection (INPARTY - OUTPARTY).
+- **optimism_current_state**: A measure of respondents' current optimism regarding their country's direction.
+- **net_migration_percent_of_pop**: Net migration as a percentage of the country's population.
+- **milex_percent_of_gdp**: Military expenditure as a percentage of GDP, averaged over three years.
+- **gov_effectiveness_wb**: World Bank's measure of perceived government effectiveness.
+- **refugee_pop_over_population**: Percentage of refugees in the population.
+- **dalton_polarization**: A measure of ideological polarization within a country.
+
+Each script builds on these variables to create visualizations or conduct statistical analysis. For more details on the variables and how they are constructed, refer to the data-generation script.
+
+## Sources
+
+This project uses various publicly available data sources, including but not limited to:
+
+- **World Bank** for government effectiveness and economic indicators.
+- **V-Dem Institute** for electoral system data and political polarization measures.
+- **CSES** (Comparative Study of Electoral Systems) for in-party and out-party affection data.
+- **SIPRI** (Stockholm International Peace Research Institute) for military expenditure data.
+- **United Nations** for population and migration data.
+- **Edelman Trust Barometer** and **Gallup** for public sentiment data.
+
+These sources have been combined and processed to create a comprehensive dataset for the analysis.
+
+## Suggested Citation
+
+If you use this replication package in your work, please cite it as follows:
+
+> The Economist Data Team (2024). Replication package for the analysis of anti-politics and negative partisanship. *The Economist*. Available at: [GitHub link]
+
+For referencing the original article, please cite:
+
+> The Economist Data Team (2024). "Anti-Politics and Negative Partisanship: A Global Study". *The Economist*.
+
+## Acknowledgments
+
+We would like to extend our thanks to the following academics, whose expertise in the field of negative partisanship was invaluable in conducting this analysis:
+
+- **Diego Garzia** (University of Lausanne), a leading expert in negative partisanship, whose work informed much of the partisanship data used in this analysis.
+- **André Blais** (University of Montreal), an authority on electoral systems and political behavior.
+- **J. Horne** (University of Cambridge), whose work on public opinion surveys helped guide our understanding of party affection gaps.
+
+Their contributions to this field have been critical in shaping the analysis presented here.
+
+## Contact and Further Information
+
+If you encounter any issues or have questions about the replication package, feel free to reach out via the GitHub issue tracker or contact the team behind the analysis.
+
+---
+
+Let me know if this version is ready to go!
