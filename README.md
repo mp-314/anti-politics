@@ -76,10 +76,10 @@ This project uses various publicly available data sources, including but not lim
 - **United Nations** for population and migration data.
 - **Edelman Trust Barometer**, **World Values Survey**, and **Gallup** for public sentiment data.
 
-These sources have been combined and processed to create a comprehensive dataset for the analysis.
+These sources have been combined and processed to allow us to conduct our analysis..
 
 ## Suggested citation
-> The Economist (2024). Anti-politics. *The Economist*.
+> The Economist (2024). The anti-politics eating the West. *The Economist*.
 
 ## Acknowledgments
 
