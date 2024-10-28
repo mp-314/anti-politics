@@ -19,7 +19,7 @@ To fully replicate the analysis, you should run these scripts **in order**:
 
 3. **analysis-replication.R**  
    This final script performs the main statistical analyses described in the article. It includes regressions and stress-tests that explore relationships between negative partisanship, military spending, migration, economic growth, and other variables.  
-   **Note:** As we note in the article - the analysis does not establish causality.
+   **Note:** As we stress in the article - the analysis does not establish causality.
 
 ## Running the scripts
 
