@@ -1,4 +1,4 @@
-# This script contains regressions and other analysis supporting the key assertions made in the text of the article. The below is a very small set of the statistical analysis conducted overall, meant to illustrate our main results. We again stress, as we do in the article, that these are not directional relationships (i.e. causal relationships). We hope other researchers will find these results interesting and explore them further.
+# This script contains regressions and other analysis supporting the key assertions made in the text of the article. The below is a very small set of the statistical analysis conducted overall, meant to illustrate our main results. This means that the various robustness checks and auxiliary analysis we conducted to increase our confidence in these results is for the most part not included here. We again stress, as we do in the article, that these are not directional relationships (i.e. causal relationships). We hope other researchers will find these results interesting and explore them further.
 
 # For details on the variables used, please see the data generation script. 
 
@@ -319,6 +319,8 @@ ggplot(df[!is.na(df$n_fatal_mids_3yr), ], aes(x=n_fatal_mids_3yr, y=negative_par
 # Deadly military disputes, any (caution, very few countries experience this):
 ggplot(df[!is.na(df$n_fatal_mids_3yr_01), ], aes(x=n_fatal_mids_3yr_01, y=negative_partisanship, col=iso3c))+geom_point()+geom_smooth(method = 'lm', aes(group = 1))
 
+# Note: There is a lot of other evidence in this vein. For instance: stronger effects for countries bordering Russia, some evidence of effects of military spending in surrounding countries, and so on. We hope future research my expand on these investigations. 
+
 # 4: Negative partisanship and beliefs about politics ------------------------------------------------------------
 
 # Negative partisanship and perceived government effectiveness
@@ -364,3 +366,12 @@ qcp(lm(negative_partisanship~
          vote_buying+as.factor(iso3c)+year+cold_war, weights = population, data = df[, ]), 
     include.only = 1:4, cluster = 'iso3c')
 
+
+# Negative partisanship and optimism (ratings of current life situation)
+ggplot(df, aes(x=optimism_current_state, y=OUTPARTY, col=iso3c))+geom_point()+geom_smooth(method = 'lm', aes(group = 1), weights = population)
+ggplot(df, aes(x=optimism_current_state, y=negative_partisanship, col=iso3c))+geom_point()+geom_smooth(method = 'lm', aes(group = 1), weights = population)
+
+# Within-country:
+qcp(lm(OUTPARTY~optimism_current_state+as.factor(iso3c)+year, weights = population, data = df), include.only = 1:4, cluster = 'iso3c')
+qcp(lm(INPARTY~optimism_current_state+as.factor(iso3c)+year, weights = population, data = df), include.only = 1:4, cluster = 'iso3c')
+# Improves affection towards both parties, but especially out-parties. 
