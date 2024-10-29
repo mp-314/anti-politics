@@ -19,7 +19,6 @@ To fully replicate the analysis, you should run these scripts **in order**:
 
 3. **analysis-replication.R**  
    This final script performs the main statistical analyses described in the article. It includes regressions and stress-tests that explore relationships between negative partisanship, military spending, migration, economic growth, and other variables.  
-   **Note:** As we stress in the article - the analysis does not establish causality.
 
 ## Running the scripts
 
@@ -49,10 +48,12 @@ Before running the scripts, ensure that the following R packages are installed:
 - `readxl`
 - `progress` (used for displaying progress bars in the data-generation process)
 
-You can install all the required packages using the following R command:
+You can install all the required packages using the following R commands:
 
 ```R
-install.packages(c('tidyverse', 'ggplot2', 'QuickCoefPlot', 'countrycode', 'haven', 'readstata13', 'readxl', 'progress', 'WDI', 'cshapes', 'sp', 'rgeos', 'dplyr', 'cli'))
+install.packages(c('tidyverse', 'ggplot2', 'countrycode', 'haven', 'readstata13', 'readxl', 'progress', 'WDI', 'cshapes', 'sp', 'rgeos', 'dplyr', 'cli'))
+library(devtools)
+install_github('sondreus/QuickCoefPlot')
 ```
 
 ## Variables
