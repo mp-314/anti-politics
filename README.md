@@ -80,7 +80,7 @@ This project uses various publicly available data sources, including but not lim
 - **United Nations** for population and migration data.
 - **Edelman Trust Barometer**, **World Values Survey**, and **Gallup** for public sentiment data.
 
-These and other sources have been combined and processed to enable us to conduct our analysis. Details are available in the data-generation script. We extend a special thanks to professors Diego Garzia, Frederico Ferreira da Silva for providing us with data on affection for in- and out-parties, which was supplemented by data from Will Horne. 
+These and other sources have been combined and processed to enable us to conduct our analysis. We extend a special thanks to professors Diego Garzia, Frederico Ferreira da Silva for providing us with data on affection for in- and out-parties, which was supplemented by data from Will Horne. 
 
 ## Limitations
 
